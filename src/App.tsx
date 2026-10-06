@@ -36,6 +36,13 @@ const pickBackgroundTier = () => {
   return "high";
 };
 
+// Same four-point star as the one cut into the logo's first "o".
+const SparkleIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 0c0 7 5 12 12 12-7 0-12 5-12 12 0-7-5-12-12-12 7 0 12-5 12-12Z" />
+  </svg>
+);
+
 function App() {
   const [backgroundTier, setBackgroundTier] = useState<"low" | "mid" | "high">(
     pickBackgroundTier,
@@ -66,16 +73,17 @@ function App() {
     };
   }, []);
 
-  const backgroundImage = useMemo(
-    () => `url("${resolveBackgroundImageUrl(backgroundTier)}")`,
-    [backgroundTier],
-  );
+  // Two layers of the same image; the wide layout positions them separately.
+  const backgroundImage = useMemo(() => {
+    const image = `url("${resolveBackgroundImageUrl(backgroundTier)}")`;
+    return `${image}, ${image}`;
+  }, [backgroundTier]);
   const steamActionLink = useMemo(
     () => actionLinks.find(({ platform }) => platform === "steamWishlist"),
     [actionLinks],
   );
-  const facebookActionLink = useMemo(
-    () => actionLinks.find(({ platform }) => platform === "facebook"),
+  const socialLinks = useMemo(
+    () => actionLinks.filter(({ platform }) => platform !== "steamWishlist"),
     [actionLinks],
   );
   const logoImage = useMemo(
@@ -85,84 +93,60 @@ function App() {
 
   return (
     <main className="landing" style={{ backgroundImage }}>
-      {facebookActionLink ? (
-        <a
-          href={facebookActionLink.href}
-          className="mobile-steam-action steam-wishlist-button"
-          aria-label={`Visit ${facebookActionLink.label}`}
-        >
-          <span className="steam-wishlist-button__icon" aria-hidden="true">
-            <FaFacebookF />
-          </span>
-        </a>
-      ) : null}
-      <section className="content">
-        <img
-          className="game-title"
-          src={logoImage}
-          alt="Pokoje"
-          draggable={false}
-        />
-        <div className="cta-panel">
-          <p className="cta-copy">
-            <strong>Pokoje</strong> is a relaxing design game where creativity
-            takes center stage. Transform fully furnished blank rooms into warm,
-            inviting spaces using a rich collection of fabrics, textures,
-            patterns, and paints.
-          </p>
-          <div className="store-buttons">
+      <div className="column">
+        <h1 className="logo">
+          <img src={logoImage} alt="Pokoje" draggable={false} />
+        </h1>
+        <div className="sheet">
+          <div className="pitch">
+            <p className="pitch__lead">
+              pokoje is a relaxing design game where creativity takes center
+              stage.
+            </p>
+            <p className="pitch__more">
+              Transform fully furnished blank rooms into warm, inviting spaces
+              using a rich collection of fabrics, textures, patterns, and
+              paints.
+            </p>
+          </div>
+          <div className="actions">
             <a
               href="https://play.pokorama.com/"
-              className="store-link slots-counter-button"
-              aria-label="Play Demo"
+              className="button button--primary"
             >
-              <span className="slots-counter-button__icon" aria-hidden="true">
-                <img
-                  className="store-icon"
-                  src="https://cdn.pokorama.com/demo/shared/icons/normal/sparkle.png"
-                  alt=""
-                />
+              <span className="button__icon">
+                <SparkleIcon />
               </span>
-              <span className="slots-counter-button__text">Play Demo</span>
+              Play demo
             </a>
             {steamActionLink ? (
-              <a
-                href={steamActionLink.href}
-                className="store-link slots-counter-button cta-button--white"
-                aria-label={`Visit ${steamActionLink.label}`}
-              >
-                <span className="slots-counter-button__icon" aria-hidden="true">
+              <a href={steamActionLink.href} className="button button--glass">
+                <span className="button__icon" aria-hidden="true">
                   <FaSteamSymbol />
                 </span>
-                <span className="slots-counter-button__text">Visit Steam</span>
+                Wishlist on Steam
               </a>
             ) : null}
           </div>
-        </div>
-      </section>
-      <div className="bottom-actions">
-        {actionLinks
-          .filter(({ platform }) => platform !== "steamWishlist")
-          .map(({ href, label, platform }) => {
-            const { icon: Icon } = actionPlatformMeta[platform];
+          <ul className="socials">
+            {socialLinks.map(({ href, label, platform }) => {
+              const { icon: Icon } = actionPlatformMeta[platform];
 
-            return (
-              <a
-                key={`${platform}-${href}`}
-                href={href}
-                className="steam-wishlist-button steam-wishlist-button--big"
-                aria-label={`Visit ${label}`}
-              >
-                <span
-                  className="steam-wishlist-button__icon"
-                  aria-hidden="true"
-                >
-                  <Icon />
-                </span>
-                <span className="steam-wishlist-button__text">{label}</span>
-              </a>
-            );
-          })}
+              return (
+                <li key={`${platform}-${href}`}>
+                  <a
+                    href={href}
+                    className="social"
+                    aria-label={`Pokoje on ${label}`}
+                    title={label}
+                  >
+                    <Icon aria-hidden="true" />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </main>
   );

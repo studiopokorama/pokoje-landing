@@ -33,6 +33,8 @@ const resolveSocialPlatform = (key: string): ActionPlatform | null => {
   const normalizedKey = key.toLowerCase();
 
   if (!normalizedKey.startsWith("social")) return null;
+  // The landing links to pages only, not community groups.
+  if (normalizedKey.includes("group")) return null;
   if (normalizedKey.includes("facebook")) return "facebook";
   if (normalizedKey.includes("instagram")) return "instagram";
   if (
