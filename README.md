@@ -41,7 +41,7 @@ Git push lint enforcement:
 
 CDN base URL:
 
-- `https://cdn.pokorama.com/play/`
+- `https://cdn.pokorama.com/demo/`
 
 Background image tiers (single image requested):
 
@@ -55,7 +55,7 @@ Runtime chooses one of `low` / `mid` / `high` based on viewport and device pixel
 
 Store URLs are resolved at runtime from:
 
-- `https://cdn.pokorama.com/play/catalog.json`
+- `https://cdn.pokorama.com/demo/catalog.json`
 
 The app reads `links` and uses `completeApp...` keys (iOS + Android) for badge targets.
 
