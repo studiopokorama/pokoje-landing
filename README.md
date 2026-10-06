@@ -1,6 +1,6 @@
-# Pokoje Homepage
+# pokoje Homepage
 
-Landing-page web app for Pokoje, built with Vite + React + TypeScript.
+Landing-page web app for pokoje, built with Vite + React + TypeScript.
 
 ## Requirements
 

@@ -95,7 +95,7 @@ function App() {
     <main className="landing" style={{ backgroundImage }}>
       <div className="column">
         <h1 className="logo">
-          <img src={logoImage} alt="Pokoje" draggable={false} />
+          <img src={logoImage} alt="pokoje" draggable={false} />
         </h1>
         <div className="sheet">
           <div className="pitch">
@@ -137,7 +137,7 @@ function App() {
                   <a
                     href={href}
                     className="social"
-                    aria-label={`Pokoje on ${label}`}
+                    aria-label={`pokoje on ${label}`}
                     title={label}
                   >
                     <Icon aria-hidden="true" />
