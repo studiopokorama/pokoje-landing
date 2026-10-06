@@ -79,7 +79,7 @@ function App() {
     [actionLinks],
   );
   const logoImage = useMemo(
-    () => resolveCdnAssetUrl("/shared/logos/pokorama_logo.png"),
+    () => resolveCdnAssetUrl("/shared/logos/pokoje_logo.png"),
     [],
   );
 
