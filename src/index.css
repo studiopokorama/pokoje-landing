@@ -65,7 +65,6 @@ body,
   height: auto;
   display: block;
   margin: 0 0 clamp(2rem, 8vh, 4.5rem);
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
   user-select: none;
   -webkit-user-drag: none;
 }
