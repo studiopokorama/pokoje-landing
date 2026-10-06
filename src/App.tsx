@@ -100,12 +100,12 @@ function App() {
         <img
           className="game-title"
           src={logoImage}
-          alt="Pokorama"
+          alt="Pokoje"
           draggable={false}
         />
         <div className="cta-panel">
           <p className="cta-copy">
-            <strong>Pokorama</strong> is a relaxing design game where creativity
+            <strong>Pokoje</strong> is a relaxing design game where creativity
             takes center stage. Transform fully furnished blank rooms into warm,
             inviting spaces using a rich collection of fabrics, textures,
             patterns, and paints.

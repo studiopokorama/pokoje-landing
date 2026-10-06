@@ -1,6 +1,6 @@
-# Pokorama Homepage
+# Pokoje Homepage
 
-Landing-page web app for Pokorama, built with Vite + React + TypeScript.
+Landing-page web app for Pokoje, built with Vite + React + TypeScript.
 
 ## Requirements
 
