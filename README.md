@@ -1,6 +1,6 @@
-# pokoje Homepage
+# Pokoje Homepage
 
-Landing-page web app for pokoje, built with Vite + React + TypeScript.
+Landing-page web app for Pokoje, built with Vite + React + TypeScript.
 
 ## Requirements
 
@@ -51,13 +51,21 @@ Background image tiers (single image requested):
 
 Runtime chooses one of `low` / `mid` / `high` based on viewport and device pixel ratio to reduce unnecessary transfer while preserving visual quality.
 
-## Store Links From Catalog
+## Links
 
-Store URLs are resolved at runtime from:
+No link targets live in this repo. All are resolved at runtime from:
 
 - `https://cdn.pokorama.com/demo/catalog.json`
 
-The app reads `links` and uses `completeApp...` keys (iOS + Android) for badge targets.
+| Button      | Catalog key                   |
+| ----------- | ----------------------------- |
+| Play demo   | `landingLinks.listingWeb`     |
+| Steam       | `links.steamWishlist`         |
+| App Store   | `landingLinks.listingIos`     |
+| Google Play | `landingLinks.listingAndroid` |
+| Socials     | `links.social...`             |
+
+Wide layouts show the demo and Steam buttons; the tall (mobile) layout shows the App Store and Google Play buttons. A button whose key is missing from the catalog is hidden.
 
 ## Store Badges
 

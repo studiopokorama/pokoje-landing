@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  FaApple,
   FaFacebookF,
+  FaGooglePlay,
   FaInstagram,
   FaPinterestP,
   FaSteamSymbol,
@@ -8,24 +10,21 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import {
-  fetchActionLinks,
+  fetchLandingLinks,
   resolveCdnAssetUrl,
   resolveBackgroundImageUrl,
   type ActionPlatform,
-  type CatalogActionLink,
+  type LandingLinks,
 } from "./lib/catalog";
 
-const actionPlatformMeta: Record<
-  ActionPlatform,
-  { icon: typeof FaSteamSymbol }
-> = {
-  steamWishlist: { icon: FaSteamSymbol },
-  facebook: { icon: FaFacebookF },
-  instagram: { icon: FaInstagram },
-  pinterest: { icon: FaPinterestP },
-  tiktok: { icon: FaTiktok },
-  youtube: { icon: FaYoutube },
-};
+const actionPlatformMeta: Record<ActionPlatform, { icon: typeof FaFacebookF }> =
+  {
+    facebook: { icon: FaFacebookF },
+    instagram: { icon: FaInstagram },
+    pinterest: { icon: FaPinterestP },
+    tiktok: { icon: FaTiktok },
+    youtube: { icon: FaYoutube },
+  };
 
 const pickBackgroundTier = () => {
   const maxViewport = Math.max(window.innerWidth, window.innerHeight);
@@ -47,7 +46,8 @@ function App() {
   const [backgroundTier, setBackgroundTier] = useState<"low" | "mid" | "high">(
     pickBackgroundTier,
   );
-  const [actionLinks, setActionLinks] = useState<CatalogActionLink[]>([]);
+  // null until the catalog answers; buttons hold their place without a target.
+  const [links, setLinks] = useState<LandingLinks | null>(null);
 
   useEffect(() => {
     const onResize = () => setBackgroundTier(pickBackgroundTier());
@@ -58,14 +58,17 @@ function App() {
   useEffect(() => {
     let isActive = true;
 
-    void fetchActionLinks()
-      .then((links) => {
+    void fetchLandingLinks()
+      .then((landingLinks) => {
         if (isActive) {
-          setActionLinks(links);
+          setLinks(landingLinks);
         }
       })
       .catch((error: unknown) => {
-        console.error("Failed to load action links from catalog", error);
+        console.error("Failed to load links from catalog", error);
+        if (isActive) {
+          setLinks({ socials: [] });
+        }
       });
 
     return () => {
@@ -78,29 +81,23 @@ function App() {
     const image = `url("${resolveBackgroundImageUrl(backgroundTier)}")`;
     return `${image}, ${image}`;
   }, [backgroundTier]);
-  const steamActionLink = useMemo(
-    () => actionLinks.find(({ platform }) => platform === "steamWishlist"),
-    [actionLinks],
-  );
-  const socialLinks = useMemo(
-    () => actionLinks.filter(({ platform }) => platform !== "steamWishlist"),
-    [actionLinks],
-  );
   const logoImage = useMemo(
     () => resolveCdnAssetUrl("/shared/logos/pokoje_logo_alt.png"),
     [],
   );
 
+  const isPending = links === null;
+
   return (
     <main className="landing" style={{ backgroundImage }}>
       <div className="column">
         <h1 className="logo">
-          <img src={logoImage} alt="pokoje" draggable={false} />
+          <img src={logoImage} alt="Pokoje" draggable={false} />
         </h1>
         <div className="sheet">
           <div className="pitch">
             <p className="pitch__lead">
-              pokoje is a relaxing design game where creativity takes center
+              Pokoje is a relaxing design game where creativity takes center
               stage.
             </p>
             <p className="pitch__more">
@@ -109,18 +106,18 @@ function App() {
               paints.
             </p>
           </div>
-          <div className="actions">
-            <a
-              href="https://play.pokorama.com/"
-              className="button button--primary"
-            >
-              <span className="button__icon">
-                <SparkleIcon />
-              </span>
-              Play demo
-            </a>
-            {steamActionLink ? (
-              <a href={steamActionLink.href} className="button button--glass">
+          {/* The demo and Steam build are for desktop; the tall layout offers the mobile apps. */}
+          <div className="actions actions--desktop">
+            {isPending || links.demo ? (
+              <a href={links?.demo} className="button button--primary">
+                <span className="button__icon">
+                  <SparkleIcon />
+                </span>
+                Play demo
+              </a>
+            ) : null}
+            {isPending || links.steam ? (
+              <a href={links?.steam} className="button button--glass">
                 <span className="button__icon" aria-hidden="true">
                   <FaSteamSymbol />
                 </span>
@@ -128,8 +125,34 @@ function App() {
               </a>
             ) : null}
           </div>
+          <div className="actions actions--mobile">
+            {isPending || links.ios ? (
+              <a
+                href={links?.ios}
+                className="button button--primary"
+                aria-label="Download Pokoje on the App Store"
+              >
+                <span className="button__icon" aria-hidden="true">
+                  <FaApple />
+                </span>
+                App Store
+              </a>
+            ) : null}
+            {isPending || links.android ? (
+              <a
+                href={links?.android}
+                className="button button--primary"
+                aria-label="Get Pokoje on Google Play"
+              >
+                <span className="button__icon" aria-hidden="true">
+                  <FaGooglePlay />
+                </span>
+                Google Play
+              </a>
+            ) : null}
+          </div>
           <ul className="socials">
-            {socialLinks.map(({ href, label, platform }) => {
+            {(links?.socials ?? []).map(({ href, label, platform }) => {
               const { icon: Icon } = actionPlatformMeta[platform];
 
               return (
@@ -137,7 +160,7 @@ function App() {
                   <a
                     href={href}
                     className="social"
-                    aria-label={`pokoje on ${label}`}
+                    aria-label={`Pokoje on ${label}`}
                     title={label}
                   >
                     <Icon aria-hidden="true" />
