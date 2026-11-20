@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import {
   fetchLandingLinks,
+  resolveCdnAssetUrl,
   resolveBackgroundImageUrl,
   type ActionPlatform,
   type LandingLinks,
@@ -74,6 +75,10 @@ function App() {
     const image = `url("${resolveBackgroundImageUrl(backgroundTier)}")`;
     return `${image}, ${image}`;
   }, [backgroundTier]);
+  const logoImage = useMemo(
+    () => resolveCdnAssetUrl("/shared/logos/pokoje_signature.png"),
+    [],
+  );
 
   const isPending = links === null;
 
@@ -81,18 +86,7 @@ function App() {
     <main className="landing" style={{ backgroundImage }}>
       <div className="column">
         <h1 className="logo">
-          {/* On the dark wide-layout panel the glow muddies; use the plain cream mark there. */}
-          <picture>
-            <source
-              media="(min-aspect-ratio: 6/5) and (min-width: 700px)"
-              srcSet="https://cdn.pokorama.com/demo/shared/logos/pokoje_signature.png"
-            />
-            <img
-              src="/assets/pokoje-logo-glow.png"
-              alt="Pokoje"
-              draggable={false}
-            />
-          </picture>
+          <img src={logoImage} alt="Pokoje" draggable={false} />
         </h1>
         <div className="sheet">
           <div className="pitch">
