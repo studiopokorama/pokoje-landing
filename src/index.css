@@ -74,9 +74,6 @@
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --motion-fast: 160ms;
 
-  /* Warm shade falling on the wall, so the cream logo holds on any crop. */
-  --wall-shade: rgba(30, 23, 18, 0.55);
-
   font-family: var(--font-ui);
   color: var(--text-on-glass-1);
   font-synthesis: none;
@@ -119,8 +116,6 @@ body,
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  /* Reads as shade falling on the wall, so the white logo holds on any crop. */
-  background: linear-gradient(to bottom, var(--wall-shade), transparent 34%);
 }
 
 .logo {
@@ -130,9 +125,16 @@ body,
     calc(1.5rem + env(safe-area-inset-left));
 }
 
+/*
+ * The PNG is the ink logo on a cream glow (as on the store art). The glow pads
+ * the ink by 16.7% of its width on every side; --logo-w sizes the ink, and the
+ * negative margin lets the glow spill out without moving the layout.
+ */
 .logo img {
+  --logo-w: min(15rem, 58vw, 24dvh);
   display: block;
-  width: min(15rem, 58vw, 24dvh);
+  width: calc(var(--logo-w) * 1.334);
+  margin: calc(var(--logo-w) * -0.167);
   height: auto;
   user-select: none;
   -webkit-user-drag: none;
@@ -314,7 +316,7 @@ body,
 /* Small phones: keep the sheet off the dresser. */
 @media (max-height: 700px) {
   .logo img {
-    width: min(12.5rem, 52vw, 24dvh);
+    --logo-w: min(12.5rem, 52vw, 24dvh);
   }
 
   .sheet {
@@ -378,8 +380,11 @@ body,
     padding: 0;
   }
 
+  /* Plain cream mark here (see App.tsx): no glow padding to offset. */
   .logo img {
-    width: min(15rem, 100%);
+    --logo-w: min(15rem, 100%);
+    width: var(--logo-w);
+    margin: 0;
   }
 
   .sheet {
@@ -441,7 +446,7 @@ body,
   }
 
   .logo img {
-    width: min(7.5rem, 100%);
+    --logo-w: min(7.5rem, 100%);
   }
 
   .pitch__lead {
