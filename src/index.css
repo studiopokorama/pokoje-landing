@@ -385,11 +385,11 @@ body,
   .sheet {
     align-items: stretch;
     gap: 1.5rem;
-    padding: 0;
+    /* The glass highlight stays as a divider under the logo; clear the pitch off it. */
+    padding: 1.5rem 0 0;
     border: 0;
     border-radius: 0;
     background: none;
-    box-shadow: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     text-align: left;
@@ -437,7 +437,7 @@ body,
 
   .sheet {
     gap: 0.7rem;
-    padding: 0;
+    padding: 0.8rem 0 0;
   }
 
   .logo img {
