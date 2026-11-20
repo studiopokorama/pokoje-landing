@@ -76,9 +76,9 @@ Official badge assets are vendored in:
 
 ## Fonts
 
-Title font is vendored locally for consistent rendering:
+The game's fonts are vendored locally (copied from pokorama.js `src/assets/fonts`): Fraunces for display text, Manrope for UI text, latin + latin-ext subsets as `.woff2`.
 
-- `src/assets/fonts/LTSaeada-Medium.otf`
+Colours, glass and motion values follow the game's Desk & Lens tokens (pokorama.js `src/styles/tokens.css`). The logo (`shared/logos/pokoje_signature.png`) and icons (`shared/icons/*/26B01`) load from the CDN.
 
 License file:
 

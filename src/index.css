@@ -1,24 +1,84 @@
+/* Fraunces normal, latin-ext */
 @font-face {
-  font-family: "LT Saeada";
-  src: url("./assets/fonts/LTSaeada-Medium.otf") format("opentype");
+  font-family: "Fraunces";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400 700;
   font-display: swap;
+  src: url(./assets/fonts/fraunces-roman-latin-ext.woff2) format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+/* Fraunces normal, latin */
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(./assets/fonts/fraunces-roman-latin.woff2) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/* Manrope normal, latin-ext */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(./assets/fonts/manrope-roman-latin-ext.woff2) format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Manrope normal, latin */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(./assets/fonts/manrope-roman-latin.woff2) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/* Values follow the game's Desk & Lens tokens (pokorama.js src/styles/tokens.css). */
 :root {
-  /* Colours are taken from the splash render: the dresser, the wall, the shade on it. */
-  --teal-ink: #16343c;
-  --teal-glass: rgba(20, 50, 58, 0.36);
-  --wall: #fbf7f1;
-  --wall-shade: rgba(64, 50, 38, 0.34);
-  --glass-edge: rgba(255, 255, 255, 0.28);
-  --glass-fill: rgba(255, 255, 255, 0.14);
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-ui:
+    "Manrope", system-ui, -apple-system, "Segoe UI", Helvetica, Arial,
+    sans-serif;
 
-  --logo-font: "LT Saeada", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --glass-bg: rgba(30, 23, 18, 0.72);
+  --glass-blur: blur(24px) saturate(1.35);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 10px 30px rgba(15, 8, 3, 0.28);
+  --glass-well: rgba(255, 255, 255, 0.07);
 
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #ffffff;
+  --text-on-glass-1: #fff8ef;
+  --text-on-glass-2: #eadfd2;
+
+  /* Key button: cream capsule on glass. */
+  --key-bg: #f7eee3;
+  --key-ink: #2a1f18;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-fast: 160ms;
+
+  /* Warm shade falling on the wall, so the cream logo holds on any crop. */
+  --wall-shade: rgba(30, 23, 18, 0.55);
+
+  font-family: var(--font-ui);
+  color: var(--text-on-glass-1);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -72,7 +132,7 @@ body,
 
 .logo img {
   display: block;
-  width: min(18rem, 68vw);
+  width: min(15rem, 58vw, 24dvh);
   height: auto;
   user-select: none;
   -webkit-user-drag: none;
@@ -87,11 +147,12 @@ body,
   padding: 1.5rem calc(1.5rem + env(safe-area-inset-right))
     calc(1.5rem + env(safe-area-inset-bottom))
     calc(1.5rem + env(safe-area-inset-left));
-  border-top: 1px solid var(--glass-edge);
+  border-top: 1px solid var(--glass-border);
   border-radius: 1.75rem 1.75rem 0 0;
-  background: var(--teal-glass);
-  -webkit-backdrop-filter: blur(22px) saturate(1.25);
-  backdrop-filter: blur(22px) saturate(1.25);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-highlight);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   text-align: center;
 }
 
@@ -100,8 +161,6 @@ body,
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  /* The glass is light; a soft shadow keeps white text readable over bright wall. */
-  text-shadow: 0 1px 3px rgba(10, 30, 36, 0.4);
 }
 
 .pitch p {
@@ -109,8 +168,9 @@ body,
 }
 
 .pitch__lead {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1.35;
   text-wrap: balance;
 }
@@ -119,7 +179,7 @@ body,
   display: none;
   font-size: 1rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--text-on-glass-2);
   text-wrap: pretty;
 }
 
@@ -152,16 +212,16 @@ body,
   padding: 0.6rem 1.25rem;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-family: var(--logo-font);
-  font-size: 1.05rem;
-  font-weight: 500;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   transition:
-    transform 0.18s ease,
-    background-color 0.18s ease,
-    box-shadow 0.18s ease;
+    transform var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
 }
 
 .button:hover {
@@ -173,24 +233,24 @@ body,
 }
 
 .button--primary {
-  color: var(--teal-ink);
-  background: var(--wall);
-  box-shadow: 0 6px 18px rgba(10, 30, 36, 0.28);
+  color: var(--key-ink);
+  background: var(--key-bg);
+  box-shadow: var(--glass-shadow);
 }
 
 .button--primary:hover {
-  background: #ffffff;
-  box-shadow: 0 10px 24px rgba(10, 30, 36, 0.34);
+  background: #fffaf3;
+  box-shadow: 0 12px 32px rgba(15, 8, 3, 0.36);
 }
 
 .button--glass {
-  color: #ffffff;
-  border-color: var(--glass-edge);
-  background: var(--glass-fill);
+  color: var(--text-on-glass-1);
+  border-color: var(--glass-border);
+  background: var(--glass-well);
 }
 
 .button--glass:hover {
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .button__icon {
@@ -225,18 +285,18 @@ body,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--glass-edge);
+  border: 1px solid var(--glass-border);
   border-radius: 50%;
-  color: #ffffff;
-  background: var(--glass-fill);
+  color: var(--text-on-glass-1);
+  background: var(--glass-well);
   transition:
-    transform 0.18s ease,
-    background-color 0.18s ease;
+    transform var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out);
 }
 
 .social:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .social svg {
@@ -247,14 +307,14 @@ body,
 
 .button:focus-visible,
 .social:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--text-on-glass-1);
   outline-offset: 3px;
 }
 
 /* Small phones: keep the sheet off the dresser. */
 @media (max-height: 700px) {
   .logo img {
-    width: min(15rem, 62vw);
+    width: min(12.5rem, 52vw, 24dvh);
   }
 
   .sheet {
@@ -305,11 +365,13 @@ body,
       clamp(1.25rem, 2.6vw, 2.5rem)
       calc(clamp(1.25rem, 5dvh, 2.5rem) + env(safe-area-inset-bottom))
       calc(clamp(1.25rem, 2.6vw, 2.5rem) + env(safe-area-inset-left));
-    border-right: 1px solid var(--glass-edge);
-    background: var(--teal-glass);
-    box-shadow: 10px 0 36px rgba(10, 30, 36, 0.28);
-    -webkit-backdrop-filter: blur(22px) saturate(1.25);
-    backdrop-filter: blur(22px) saturate(1.25);
+    border-right: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    box-shadow:
+      var(--glass-highlight),
+      10px 0 36px rgba(15, 8, 3, 0.28);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
   }
 
   .logo {
@@ -317,9 +379,7 @@ body,
   }
 
   .logo img {
-    width: min(17rem, 100%);
-    /* The PNG carries 2% of transparent room for its shadow; pull the wordmark onto the text edge. */
-    margin-left: -2%;
+    width: min(15rem, 100%);
   }
 
   .sheet {
@@ -380,7 +440,7 @@ body,
   }
 
   .logo img {
-    width: min(9.5rem, 100%);
+    width: min(7.5rem, 100%);
   }
 
   .pitch__lead {

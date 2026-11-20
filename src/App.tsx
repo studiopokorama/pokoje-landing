@@ -5,6 +5,7 @@ import {
   FaGooglePlay,
   FaInstagram,
   FaPinterestP,
+  FaPlay,
   FaSteamSymbol,
   FaTiktok,
   FaYoutube,
@@ -34,13 +35,6 @@ const pickBackgroundTier = () => {
   if (scaledViewport <= 2200) return "mid";
   return "high";
 };
-
-// Same four-point star as the one cut into the logo's first "o".
-const SparkleIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 0c0 7 5 12 12 12-7 0-12 5-12 12 0-7-5-12-12-12 7 0 12-5 12-12Z" />
-  </svg>
-);
 
 function App() {
   const [backgroundTier, setBackgroundTier] = useState<"low" | "mid" | "high">(
@@ -82,7 +76,7 @@ function App() {
     return `${image}, ${image}`;
   }, [backgroundTier]);
   const logoImage = useMemo(
-    () => resolveCdnAssetUrl("/shared/logos/pokoje_logo_alt.png"),
+    () => resolveCdnAssetUrl("/shared/logos/pokoje_signature.png"),
     [],
   );
 
@@ -110,8 +104,8 @@ function App() {
           <div className="actions actions--desktop">
             {isPending || links.demo ? (
               <a href={links?.demo} className="button button--primary">
-                <span className="button__icon">
-                  <SparkleIcon />
+                <span className="button__icon" aria-hidden="true">
+                  <FaPlay />
                 </span>
                 Play demo
               </a>
