@@ -389,6 +389,7 @@ body,
     border: 0;
     border-radius: 0;
     background: none;
+    box-shadow: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     text-align: left;
